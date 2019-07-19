@@ -5,12 +5,19 @@ import { Link, Redirect } from 'react-router-dom'
 class Login extends Component {
   state = {
     username: "",
+    password: "",
     redirect: false,
     failed: false
   }
 
-  handleChange = (e, { name, value }) => {
+  handleUsername = (e, { name, value }) => {
     this.setState({ [name]: value })
+    debugger
+  }
+
+  handlePassword = (e, { name, value }) => {
+    this.setState({ [name]: value })
+    debugger
   }
 
   handleSubmit = (e) => {
@@ -21,7 +28,8 @@ class Login extends Component {
         "Accept": "application/json"
       },
     	body:JSON.stringify({
-    		username: this.state.username,
+        username: this.state.username,
+        password: this.state.password
     	})
     }).then(res => res.json())
     .then(data => {
@@ -47,8 +55,14 @@ class Login extends Component {
           <Form.Input
             name="username"
             placeholder="Username"
-            onChange={this.handleChange}
+            onChange={this.handleUsername}
             value={this.state.username}
+          />
+          <Form.Input
+            name="password"
+            placeholder="Password"
+            onChange={this.handlePassword}
+            value={this.state.password}
           />
           <Message
             error
