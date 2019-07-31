@@ -12,7 +12,7 @@ import { Table } from 'semantic-ui-react';
   }
     return (
       <Table.Row>
-        <Table.Cell>{props.user.first_name} {props.user.lasst_name}</Table.Cell>
+        <Table.Cell>{props.user.first_name} {props.user.last_name}</Table.Cell>
         <Table.Cell>{props.score.mode}</Table.Cell>
         <Table.Cell>{props.score.correct}</Table.Cell>
         <Table.Cell>{props.score.total}</Table.Cell>

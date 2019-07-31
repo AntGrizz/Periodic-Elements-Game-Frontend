@@ -5,16 +5,21 @@ import NavBar from './NavBar'
 import Table from './Table'
 import SideDisplay from './SideDisplay'
 import ElementDetails from '../components/ElementDetails'
+import {isEmpty} from 'lodash'
 
 class QuizPage extends Component {
 
   render() {
+    console.log(this.props.user)
+    // return !this.props.user ? (
+    //   <div>Loading... Hang Tight!</div>
+    // ) : (
 
-    if (!this.props.loggedIn) {
-      return <Redirect to="/"/>
+    if (isEmpty(this.props.user)) {
+      console.log(this.props.user)
+      return <Redirect to="/" />
     }
-
-    return (
+      return (
       <Fragment>
         <div className="ui container">
             <NavBar

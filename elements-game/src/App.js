@@ -7,6 +7,7 @@ import QuizPage from './containers/QuizPage';
 import ElementDetails from './components/ElementDetails';
 import ScorePanel from './components/ScorePanel';
 import ScoresTable from './containers/ScoresTable';
+import { Redirect } from 'react-router-dom'
 
 class App extends Component {
   constructor() {
@@ -18,7 +19,7 @@ class App extends Component {
       questions: [],
       correct: 0,
       total: 0,
-      currentUser: {first_name: "Guest"},
+      currentUser: {},
       currentScores: [],
       loggedIn: false
     }
@@ -26,12 +27,30 @@ class App extends Component {
 
   // Load all elements on mount
   componentDidMount() {
+    let token = localStorage.getItem('token');
+    if (token) {
+      this.fetchLoggedInUser(token);
+    }
     fetch(
       'https://raw.githubusercontent.com/Bowserinator/Periodic-Table-JSON/master/PeriodicTableJSON.json'
     )
       .then(res => res.json())
       .then(elementsData => this.setState({ elements: elementsData.elements }));
   }
+
+  // Keep the user logged in
+fetchLoggedInUser(token) {
+    fetch(`http://localhost:3000/profile`, {
+      headers: {
+        "Authentication": `Bearer ${token}`,
+      }
+    })
+      .then(res => res.json())
+      .then(user => {
+        this.updateUserInfo(user)
+        console.log(user)
+      })
+}  
 
   // Handle clicks in navbar
   handleNavSel = e => {
@@ -181,13 +200,16 @@ class App extends Component {
         "Accept": "application/json"
       },
     	body:JSON.stringify({
-    		user_id: this.state.currentUser.id,
+    		score: {
+          user_id: this.state.currentUser.id,
         mode: this.state.gameSel,
         correct: this.state.correct,
         total: this.state.total
+        }
     	})
     }).then(res => res.json())
     .then(score => {
+      console.log(score)
       let newScores = [...this.state.currentScores, score]
       this.setState({
         currentScores: newScores
@@ -203,24 +225,27 @@ class App extends Component {
   // Handle login
   updateUserInfo = userData => {
     this.setState({
-      currentUser: userData.user,
+      currentUser: userData,
       currentScores: userData.scores,
       loggedIn: true
     })
+    console.log(userData)
   }
 
   // Handle logout
   handleLogout = () => {
+    localStorage.clear()
     this.setState({
       element: null,
       gameSel: 'Learn',
       questions: [],
       correct: 0,
       total: 0,
-      currentUser: {first_name: "Guest"},
+      currentUser: {},
       currentScores: [],
       loggedIn: false
     })
+    return <Redirect to="/" />
   }
 
 
@@ -273,6 +298,7 @@ class App extends Component {
             />}
           />
           <Route
+            path="/"
             render={() => <Login update={this.updateUserInfo}/>}
           />
         </Switch>

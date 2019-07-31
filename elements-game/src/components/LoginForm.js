@@ -12,12 +12,12 @@ class Login extends Component {
 
   handleUsername = (e, { name, value }) => {
     this.setState({ [name]: value })
-    debugger
+    // debugger
   }
 
   handlePassword = (e, { name, value }) => {
     this.setState({ [name]: value })
-    debugger
+    // debugger
   }
 
   handleSubmit = (e) => {
@@ -33,8 +33,10 @@ class Login extends Component {
     	})
     }).then(res => res.json())
     .then(data => {
-      if (!data.error) {
-        this.props.update(data)
+      if (data.authenticated) {
+        console.log(data.user)
+        localStorage.setItem('token', data.token)
+        this.props.update(data.user)
         this.setState({redirect: true})
       } else {
         this.setState({failed: true})
@@ -60,6 +62,7 @@ class Login extends Component {
           />
           <Form.Input
             name="password"
+            type="password"
             placeholder="Password"
             onChange={this.handlePassword}
             value={this.state.password}

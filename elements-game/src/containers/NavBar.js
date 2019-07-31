@@ -6,7 +6,7 @@ import Dropdown from '../components/Dropdown';
 class NavBar extends Component {
   render() {
     const { handleNavSel, handleGameSel } = this.props;
-
+    // debugger
     return (
       <div id="nav-bar">
         <Container>

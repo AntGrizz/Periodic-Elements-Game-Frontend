@@ -7,6 +7,7 @@ class CreateUser extends Component {
     username: "",
     first_name: "",
     last_name: "",
+    password:"",
     redirect: false
   }
 
@@ -24,11 +25,13 @@ class CreateUser extends Component {
     	body:JSON.stringify({
     		username: this.state.username,
     		first_name: this.state.first_name,
-        last_name: this.state.last_name
+        last_name: this.state.last_name,
+        password: this.state.password,
+        scores: []
     	})
     }).then(res => res.json())
     .then(data => {
-      this.props.update(data)
+      this.props.update(data.user)
       this.setState({redirect: true})
     })
   }
@@ -60,6 +63,13 @@ class CreateUser extends Component {
             placeholder="Last Name"
             onChange={this.handleChange}
             value={this.state.last_name}
+          />
+          <Form.Input
+            name="password"
+            type="password"
+            placeholder="Password"
+            onChange={this.handleChange}
+            value={this.state.password}
           />
           <Button type="submit">Create account</Button>
         </Form>
