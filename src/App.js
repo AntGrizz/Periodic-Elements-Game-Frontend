@@ -48,7 +48,7 @@ fetchLoggedInUser(token) {
       .then(res => res.json())
       .then(user => {
         this.updateUserInfo(user)
-        console.log(user)
+        // console.log(user)
       })
 }  
 
@@ -192,30 +192,34 @@ fetchLoggedInUser(token) {
   };
 
   updateUserScores = () => {
+    console.log(this.state.currentUser.user_id,
+      this.state.gameSel,
+      this.state.correct,
+     this.state.total)
     this.cycleQuestions()
     fetch('http://localhost:3000/scores', {
       method: "POST",
       headers: {
-        "Content-Type":"application/json",
-        "Accept": "application/json"
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+        Authentication: `Bearer ${localStorage.token}`
       },
     	body:JSON.stringify({
-    		score: {
-          user_id: this.state.currentUser.id,
+          user_id: this.state.currentUser.user_id,
         mode: this.state.gameSel,
         correct: this.state.correct,
         total: this.state.total
-        }
     	})
     }).then(res => res.json())
     .then(score => {
       console.log(score)
-      let newScores = [...this.state.currentScores, score]
+      let newScores = [...this.state.currentScores, score.score]
       this.setState({
         currentScores: newScores
       })
+      console.log(newScores)
     })
-  }
+  } 
 
   // Handle click outside of modal
   handleModalExit = () => {
@@ -229,7 +233,7 @@ fetchLoggedInUser(token) {
       currentScores: userData.scores,
       loggedIn: true
     })
-    console.log(userData)
+    // console.log(userData)
   }
 
   // Handle logout

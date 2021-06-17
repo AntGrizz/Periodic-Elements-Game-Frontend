@@ -34,7 +34,7 @@ class Login extends Component {
     }).then(res => res.json())
     .then(data => {
       if (data.authenticated) {
-        console.log(data.user)
+        // console.log(data.user)
         localStorage.setItem('token', data.token)
         this.props.update(data.user)
         this.setState({redirect: true})

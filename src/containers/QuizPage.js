@@ -10,7 +10,7 @@ import {isEmpty} from 'lodash'
 class QuizPage extends Component {
 
   render() {
-    console.log(this.props.user)
+    // console.log(this.props.user)
     // return !this.props.user ? (
     //   <div>Loading... Hang Tight!</div>
     // ) : (
