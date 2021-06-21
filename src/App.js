@@ -9,6 +9,8 @@ import ScorePanel from './components/ScorePanel';
 import ScoresTable from './containers/ScoresTable';
 import { Redirect } from 'react-router-dom'
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3000';
+
 class App extends Component {
   constructor() {
     super();
@@ -40,7 +42,7 @@ class App extends Component {
 
   // Keep the user logged in
 fetchLoggedInUser(token) {
-    fetch(`http://localhost:3000/profile`, {
+    fetch(BASE_URL + '/profile', {
       headers: {
         "Authentication": `Bearer ${token}`,
       }
@@ -197,7 +199,7 @@ fetchLoggedInUser(token) {
       this.state.correct,
      this.state.total)
     this.cycleQuestions()
-    fetch('http://localhost:3000/scores', {
+    fetch(BASE_URL + '/scores', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json',
