@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import { Button, Form, Container, Header, Message } from 'semantic-ui-react'
 import { Link, Redirect } from 'react-router-dom'
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:3000';
+
 class Login extends Component {
   state = {
     username: "",
@@ -21,7 +23,7 @@ class Login extends Component {
   }
 
   handleSubmit = (e) => {
-    fetch('http://localhost:3000/users/login', {
+    fetch(BASE_URL +'/users/login', {
       method: "POST",
       headers: {
         "Content-Type":"application/json",
